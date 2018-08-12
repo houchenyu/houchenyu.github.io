@@ -5,15 +5,19 @@
   
 
   
-  <title>稀饭里的辣椒</title>
+  <title>git命令手册 | 稀饭里的辣椒</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="稀饭里的辣椒">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="基本命令12345678910111213##查看用户名和邮箱地址git config user.namegit config user.email##修改····git config --global user.name &amp;quot;username&amp;quot;git config --global user.email &amp;quot;email&amp;quot;##查看仓库当前状态git status">
+<meta property="og:type" content="article">
+<meta property="og:title" content="git命令手册">
+<meta property="og:url" content="http://yoursite.com/2018/03/14/git command mannual/index.html">
 <meta property="og:site_name" content="稀饭里的辣椒">
+<meta property="og:description" content="基本命令12345678910111213##查看用户名和邮箱地址git config user.namegit config user.email##修改····git config --global user.name &amp;quot;username&amp;quot;git config --global user.email &amp;quot;email&amp;quot;##查看仓库当前状态git status">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-08-12T13:49:08.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="稀饭里的辣椒">
+<meta name="twitter:title" content="git命令手册">
+<meta name="twitter:description" content="基本命令12345678910111213##查看用户名和邮箱地址git config user.namegit config user.email##修改····git config --global user.name &amp;quot;username&amp;quot;git config --global user.email &amp;quot;email&amp;quot;##查看仓库当前状态git status">
   
     <link rel="alternate" href="/atom.xml" title="稀饭里的辣椒" type="application/atom+xml">
   
@@ -64,130 +68,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/07/22/hello-world/" class="article-date">
-  <time datetime="2018-07-22T13:53:25.000Z" itemprop="datePublished">2018-07-22</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/22/hello-world/">写在开头</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>非常感谢观看我的博客，这里记录了我在平时工作学习中遇到的问题和解决方案，希望对于同样有困扰的同学有所帮助。</p>
-<h3 id="About-Me"><a href="#About-Me" class="headerlink" title="About Me"></a>About Me</h3><ul>
-<li>学校： 浙江工业大学</li>
-<li>学历： 博士在读</li>
-<li>方向： 数据挖掘、机器学习、数据库算法</li>
-<li>兴趣爱好： 篮球、健身、少许游戏</li>
-</ul>
-<h3 id="Contact"><a href="#Contact" class="headerlink" title="Contact"></a>Contact</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">email: houcy@zjut.edu.cn 、627530484@qq.com</span><br><span class="line">wechat: 15757115215</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/07/22/hello-world/" data-id="cjkqwsnga0001wgr76mc5zckz" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-test" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/03/25/test/" class="article-date">
-  <time datetime="2018-03-25T07:49:07.000Z" itemprop="datePublished">2018-03-25</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/25/test/">平稳序列建模的一般过程</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="1-验证是否为白噪声序列"><a href="#1-验证是否为白噪声序列" class="headerlink" title="1.验证是否为白噪声序列"></a>1.验证是否为白噪声序列</h3><p>所谓白噪声序列是指虽然该序列是平稳的，但是各个时刻的值之间没有联系，则无法对其进行建模分析。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Box.test(data, type = &quot;Ljung-Box&quot;, lag = 1)</span><br><span class="line">type:选择统计量，默认是Q统计类，Ljung-Box是LB统计量</span><br><span class="line">lag:延迟期数</span><br></pre></td></tr></table></figure>
-<p>原假设：假设延迟期&lt;=lag期之间相互独立<br>如果 p值小于0.05,则拒绝假设，说明不是白噪声序列，可以进行下一步建模。</p>
-<h3 id="2-绘制自相关图和偏相关图"><a href="#2-绘制自相关图和偏相关图" class="headerlink" title="2.绘制自相关图和偏相关图"></a>2.绘制自相关图和偏相关图</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">acf()</span><br><span class="line">pacf()</span><br></pre></td></tr></table></figure>
-<p>观察自相关图和偏相关图</p>
-<h3 id="3-选择合适的模型"><a href="#3-选择合适的模型" class="headerlink" title="3.选择合适的模型"></a>3.选择合适的模型</h3><p>利用以下的规则去选择模型</p>
-<table>
-<thead>
-<tr>
-<th>模型</th>
-<th>自相关系数</th>
-<th>偏相关系数</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>AR(p)</td>
-<td>拖尾</td>
-<td>p阶截尾</td>
-</tr>
-<tr>
-<td>MA(q)</td>
-<td>q阶截尾</td>
-<td>拖尾</td>
-</tr>
-<tr>
-<td>ARMA(p,q)</td>
-<td>拖尾</td>
-<td>拖尾</td>
-</tr>
-</tbody>
-</table>
-<h3 id="4-参数估计"><a href="#4-参数估计" class="headerlink" title="4.参数估计"></a>4.参数估计</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">arima(x,order = ,include.mean = T, method = &quot;CSS-ML&quot;)</span><br><span class="line"></span><br><span class="line">-method:参数估计方法</span><br><span class="line">    CSS-ML：条件最下二乘与极大似然估计混合方法</span><br><span class="line">    ML：极大似然估计</span><br><span class="line">    CSS：条件最小二乘估计</span><br></pre></td></tr></table></figure>
-<h3 id="5-模型检验"><a href="#5-模型检验" class="headerlink" title="5.模型检验"></a>5.模型检验</h3><p>确定好模型后，还要对拟合的模型进行必要的检验</p>
-<h4 id="5-1-模型的显著性检验"><a href="#5-1-模型的显著性检验" class="headerlink" title="5.1.模型的显著性检验"></a>5.1.模型的显著性检验</h4><p>检验模型的有效性。通过计算残差序列是否为白噪声序列。若是，则说明该模型是显著有效的。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">model.fit&lt;-arima(data,oder = c(1,0,1), method = &quot;CSS&quot;)</span><br><span class="line">Box.test(model.fit$residual,lag=6)</span><br><span class="line">##model.fit$residual 表示检验残差</span><br></pre></td></tr></table></figure>
-<p>如果p值大于0.05，则可以接受假设。说明残差是白噪声了。</p>
-<h4 id="5-2-参数的显著性检验"><a href="#5-2-参数的显著性检验" class="headerlink" title="5.2.参数的显著性检验"></a>5.2.参数的显著性检验</h4><p>检验是否每个参数都是显著非0，检验的目的是为了使模型最精简。</p>
-<p>计算参数估计: $t = \frac{\phi_i}{\sigma}$<br>$\sigma$为标准差</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pt(t,df,lower.tail)</span><br></pre></td></tr></table></figure>
-<h3 id="模型优化"><a href="#模型优化" class="headerlink" title="模型优化"></a>模型优化</h3><p>有时候可以有多个模型可以拟合一个序列，这个时候引进AIC和BIC信息准则的概念进行模型优化。<br>$AIC = n \text{ln}(\sigma^2)+2(p+q+2)$</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/03/25/test/" data-id="cjkqwsngd0002wgr7x0c6rwdv" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-git command mannual" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-git command mannual" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/03/14/git command mannual/" class="article-date">
   <time datetime="2018-03-14T09:38:39.000Z" itemprop="datePublished">2018-03-14</time>
@@ -200,8 +81,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/14/git command mannual/">git命令手册</a>
+    <h1 class="article-title" itemprop="name">
+      git命令手册
     </h1>
   
 
@@ -282,11 +163,23 @@
     </footer>
   </div>
   
-</article>
-
+    
+<nav id="article-nav">
+  
+    <a href="/2018/03/25/test/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          平稳序列建模的一般过程
+        
+      </div>
+    </a>
+  
+  
+</nav>
 
   
-
+</article>
 
 </section>
         
