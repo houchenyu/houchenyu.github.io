@@ -3,11 +3,11 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
-subtitle:
+title: 稀饭里的辣椒
+subtitle: 并没有什么干货的博客tx
 description:
 keywords:
-author: John Doe
+author: houchenyu
 language:
 timezone:
 
@@ -75,6 +75,8 @@ pagination_dir: page
 ## Themes: https://hexo.io/themes/
 theme: landscape
 
+#plugins:
+#- hexo-math
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy: 

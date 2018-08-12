@@ -1,38 +1,22 @@
 ---
-title: Hello World
+title: 写在开头
 ---
-Welcome to [Hexo](https://hexo.io/)! This is your very first post. Check [documentation](https://hexo.io/docs/) for more info. If you get any problems when using Hexo, you can find the answer in [troubleshooting](https://hexo.io/docs/troubleshooting.html) or you can ask me on [GitHub](https://github.com/hexojs/hexo/issues).
+非常感谢观看我的博客，这里记录了我在平时工作学习中遇到的问题和解决方案，希望对于同样有困扰的同学有所帮助。
 
-## Quick Start
 
-### Create a new post
+### About Me
+* 学校： 浙江工业大学
+* 学历： 博士在读
+* 方向： 数据挖掘、机器学习、数据库算法
+* 兴趣爱好： 篮球、健身、少许游戏
 
-``` bash
-$ hexo new "My New Post"
+
+### Contact
+
+``` 
+email: houcy@zjut.edu.cn 、627530484@qq.com
+wechat: 15757115215
 ```
 
-More info: [Writing](https://hexo.io/docs/writing.html)
 
-### Run server
 
-``` bash
-$ hexo server
-```
-
-More info: [Server](https://hexo.io/docs/server.html)
-
-### Generate static files
-
-``` bash
-$ hexo generate
-```
-
-More info: [Generating](https://hexo.io/docs/generating.html)
-
-### Deploy to remote sites
-
-``` bash
-$ hexo deploy
-```
-
-More info: [Deployment](https://hexo.io/docs/deployment.html)
