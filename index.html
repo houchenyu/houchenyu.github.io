@@ -102,7 +102,97 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/13/index/" data-id="cjksfbhy2000329r7gweiy0sh" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/13/index/" data-id="cjl57ph1s0001kkr7eceu3dki" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-postgis" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/22/postgis/" class="article-date">
+  <time datetime="2018-08-22T13:58:10.000Z" itemprop="datePublished">2018-08-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/22/postgis/">空间数据处理利器POSTGRES + POSTGIS + QGIS</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本篇文章主要介绍我在项目中处理空间数据时使用到的工具，因为确实非常方便，所以希望记录下来，分享给大家。或许一些大牛对此嗤之以鼻，但是希望能帮助像我一样的小白。</p>
+<p>通过本文，你将学到</p>
+<ol>
+<li>什么是POSTGRES和POSTGIS</li>
+</ol>
+<ol start="2">
+<li>如果将空间对象存入POSTGRES中</li>
+</ol>
+<ol start="3">
+<li>如何利用POSTGIS进行KNN查询</li>
+</ol>
+<ol start="4">
+<li>对空间对象建立索引加快查询速度</li>
+</ol>
+<ol start="5">
+<li>如何可视化空间对象</li>
+</ol>
+<h2 id="POSTGRES-POSTGIS"><a href="#POSTGRES-POSTGIS" class="headerlink" title="POSTGRES + POSTGIS"></a>POSTGRES + POSTGIS</h2><p>postgres是一个开源的关系型数据库，而postgis可以理解为是postgres的一个插件。当安装了postgits之后，可以在postgres中一个字段存储空间类型的数据， 比如一个Point，或者 Polygon。</p>
+<p>如果不安装postgis， 想要存储一个空间上的Point， 则需要存储该点的经度(lng)和纬度(lat)，实际上是用了两个float的字段去表示一个Point。 而且这样存储后很难直接去比较两个空间对象之间的关系。</p>
+<p>安装Postgis后，一个Point可以只存在一个字段上，该字段可以实实在在地表示一个空间点，并且可以很方便地使用一些Postgis自带的函数去比较两个空间对象。</p>
+<p>在这次工作中</p>
+<h2 id="创建表"><a href="#创建表" class="headerlink" title="创建表"></a>创建表</h2><p>创建一个存储空间对象的表， 语法跟普通sql语句创建表类似。 例如一下创建了一个存储高速收费站信息的表, 表名为 <code>TOLL_STATION</code>。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> TOLL_STATION (</span><br><span class="line">    <span class="keyword">id</span> <span class="built_in">text</span>,</span><br><span class="line">    <span class="keyword">name</span> <span class="built_in">text</span>,</span><br><span class="line">    geom Geometry(Point, <span class="number">4326</span>)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>表中的信息包括 1、收费站的<code>id</code>，text类型。 2、收费站的名称(<code>name</code>)， text类型。 3、<code>geom</code>， 收费站地理信息。这里字段的类型是 <code>Geometry(Point, 4326)</code>。</p>
+<p>这里重点解释一下<strong>Geometry</strong>的类型。首先申明： 我按照我的理解通俗解释下Geomery，并不代表我的理解是正确的。txtx~</p>
+<p><strong>Geometry</strong>不是Postgres自带的数据类型，必须在数据库中“激活”了Postgis后才能使用。激活的方式是输入以下命令。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> EXTENSION postgis</span><br></pre></td></tr></table></figure>
+<p>我们看到上面创建表时 Geometry中有两个参数，分别是<code>Point</code>, <code>4326</code>。其中<code>Point</code>指定了这个空间对象的类型， 即高速收费站是一个点， <code>4326</code>则规定了经纬度的坐标系是wgs84。</p>
+<ul>
+<li>科普：经纬度坐标系分为 wgs84, bd09, gcj等，不同坐标系下的经纬度有轻微偏移，所以必须在相同坐标系下进行空间比较。</li>
+</ul>
+<h2 id="导入数据"><a href="#导入数据" class="headerlink" title="导入数据"></a>导入数据</h2><p>当表创建好后，则需要导入数据。这里假设原来的数据在文件中，此时需要批量导入postgres数据库中。</p>
+<p>首先， 数据格式应该如下所示：</p>
+<p><img src="/2018/08/22/postgis/format.png" alt="数据格式"></p>
+<p><strong>注意</strong>在: 文件中没有表头！！！！如果存在表头，在后续导入会造成错误。</p>
+<p>接下来，导入数据的方式有两种：</p>
+<ol>
+<li>命令行导入 ： <code>COPY TOLL_STATION FROM &#39;d:/postData/highway_toll_station_wgs.csv&#39; delimiter &#39;,&#39;;</code> <code>TOLL_STATION</code>是要导入的目标表名， <code>d:/postData/highway_toll_station_wgs.csv</code>是文件路径， <code>delimiter &#39;,&#39;</code>则指定了读取文件时，每一行内数据的分隔符是逗号。<br>这里需要注意的一点是文件路径不要放在c盘目录下，这样子会报错 permission denied</li>
+</ol>
+<ol start="2">
+<li>利用pgAdmin 4管理工具导入，具体如下图所示。</li>
+</ol>
+<p><img src="/2018/08/22/postgis/pgAdmin.png" alt="pgAdmin导入数据"></p>
+<h2 id="最近邻查询"><a href="#最近邻查询" class="headerlink" title="最近邻查询"></a>最近邻查询</h2><p>在这里，我们需要完成的工作是计算每个网格到最近的高速收费站的距离。 如果使用其他编程语言，则需要写较多的代码，而在postgis里，只需要几行select语句就可以搞定。</p>
+<p>首先，我们还创建了<code>GRID</code>表，用于存储网格信息。然后，我们为每个网格匹配最近的高速收费站，并计算距离。 具体的select语句如下</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">into</span> grid_nearest_station</span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">(</span><br><span class="line">    <span class="keyword">SELECT</span> g.id <span class="keyword">AS</span> grid_id, b.id <span class="keyword">AS</span> station_id, b.d <span class="keyword">AS</span> distance</span><br><span class="line">    <span class="keyword">FROM</span> GRID g</span><br><span class="line">    <span class="keyword">CROSS</span> <span class="keyword">JOIN</span> LATERAL (</span><br><span class="line">        <span class="keyword">SELECT</span> s.id <span class="keyword">AS</span> <span class="keyword">id</span>, s.geom <span class="keyword">AS</span> geom, st_distance_sphere(g.geom, s.geom) <span class="keyword">AS</span> d</span><br><span class="line">        <span class="keyword">FROM</span> TOLL_STATION s</span><br><span class="line">        <span class="keyword">ORDER</span> <span class="keyword">BY</span> g.geom &lt;-&gt; s.geom</span><br><span class="line">        <span class="keyword">LIMIT</span> <span class="number">1</span></span><br><span class="line">    )b</span><br><span class="line">)<span class="keyword">AS</span> table1</span><br></pre></td></tr></table></figure>
+<p>我们首先看嵌套的select语句，对于给定的网格， <code>g.geom&lt;-&gt;s.geom</code>直接实现了计算两点之间的距离(非经纬度距离)，<code>LIMIT 1</code>和 <code>ORDER BY</code> 则返回最近的一条记录。  <code>st_distance_sphere(g.geom, s.geom)</code>计算两者之间的实际距离(经纬度距离)。<br>再看外层的select语句， <code>CROSS JOIN</code>用于做两个表的连接查询。 <code>LATERAL</code>的作用大致上是使得内层嵌套的select语句可以使用外层select语句的表内容。 在本语句中， 外层GRID表的内容用于子查询中的匹配。</p>
+<p>##建立索引<br>首先附上官方教程：<a href="http://revenant.ca/www/postgis/workshop/indexing.html" target="_blank" rel="noopener">http://revenant.ca/www/postgis/workshop/indexing.html</a><br>然后介绍命令： <code>CREATE INDEX [index_name] ON [table_name] USING GIST ([column_name]);</code></p>
+<p>只需把[]里面的内容修改成你自己的即可。</p>
+<h2 id="验证-QGIS"><a href="#验证-QGIS" class="headerlink" title="验证(QGIS)"></a>验证(QGIS)</h2><p>通过上一步我们已经得到了每个网格离最近的高速站点的距离，但是因为初次使用postgis，对于结果半信半疑，所以想要对结果进行验证。在这里，隆重介绍一个工具QGIS。</p>
+<p>About QGIS： QGIS is a user friendly Open Source Geographic Information System (GIS) licensed under the GNU General Public License. QGIS is an official project of the Open Source Geospatial Foundation (OSGeo). It runs on Linux, Unix, Mac OSX, Windows and Android and supports numerous vector, raster, and database formats and functionalities.</p>
+<p>QGIS可以直连Postgres数据库，然后将数据库中特定表的内容加载到空间上，同时可以添加OpenMap的layer，对于空间处理非常方便。下图就是我导入网格数据和高速收费站数据后的效果图。其中密集的点是一个个小网格， 圆圈是高速收费站。 通过直观的观察，我们可以验证一些网格的最近高速收费站是否匹配正确。 同时,QGIS还提供测距功能，测量两点之间的距离是否真的如之前查询所得一样。<br><img src="/2018/08/22/postgis/qgis.png" alt="QGIS截图"></p>
+<h2 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h2><p>至此，关于我在项目中使用POSTGIS处理空间对象的内容介绍完毕。 由于长时间没有使用数据库，曾经一度select语句都不会写了。 POSTGRES和POSTGIS的功能我也只用了九牛一毛， 例如还有判断一个对象是否被多边形包含的函数 ST_Contains。<br>这里的介绍如有错误欢迎批评指正。</p>
+<p>Hope Enjoy！</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/22/postgis/" data-id="cjl57ph2x0004kkr7w9g3p6io" class="article-share-link">Share</a>
       
       
     </footer>
@@ -185,7 +275,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/12/district/" data-id="cjksfbhxu000029r7hb4d2dx5" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/12/district/" data-id="cjl57ph2u0002kkr7q5j4ntfe" class="article-share-link">Share</a>
       
       
     </footer>
@@ -284,7 +374,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/12/git command mannual/" data-id="cjksfbhxy000129r7ac6zkqkx" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/12/git command mannual/" data-id="cjl57ph1n0000kkr7547cl323" class="article-share-link">Share</a>
       
       
     </footer>
@@ -361,7 +451,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/12/test/" data-id="cjksfbhy0000229r7c0upha3f" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/12/test/" data-id="cjl57ph2w0003kkr7bxzryppx" class="article-share-link">Share</a>
       
       
     </footer>
@@ -400,6 +490,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2018/08/22/postgis/">空间数据处理利器POSTGRES + POSTGIS + QGIS</a>
+          </li>
         
           <li>
             <a href="/2018/08/13/index/">写在开头</a>
