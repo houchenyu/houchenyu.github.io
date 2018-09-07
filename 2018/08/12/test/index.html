@@ -14,10 +14,12 @@
 <meta property="og:site_name" content="稀饭里的辣椒">
 <meta property="og:description" content="title: 平稳序列建模的一般过程1.验证是否为白噪声序列所谓白噪声序列是指虽然该序列是平稳的，但是各个时刻的值之间没有联系，则无法对其进行建模分析。 123Box.test(data, type = &amp;quot;Ljung-Box&amp;quot;, lag = 1)type:选择统计量，默认是Q统计类，Ljung-Box是LB统计量lag:延迟期数 原假设：假设延迟期&amp;lt;=lag期之间相互独">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-09-07T14:31:23.390Z">
+<meta property="og:image" content="https://latex.codecogs.com/gif.latex?AIC&space;=&space;n&space;\text{ln}(\sigma^2)+2(p+q+2)">
+<meta property="og:updated_time" content="2018-09-07T15:48:21.275Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="稀饭里的辣椒">
 <meta name="twitter:description" content="title: 平稳序列建模的一般过程1.验证是否为白噪声序列所谓白噪声序列是指虽然该序列是平稳的，但是各个时刻的值之间没有联系，则无法对其进行建模分析。 123Box.test(data, type = &amp;quot;Ljung-Box&amp;quot;, lag = 1)type:选择统计量，默认是Q统计类，Ljung-Box是LB统计量lag:延迟期数 原假设：假设延迟期&amp;lt;=lag期之间相互独">
+<meta name="twitter:image" content="https://latex.codecogs.com/gif.latex?AIC&space;=&space;n&space;\text{ln}(\sigma^2)+2(p+q+2)">
   
     <link rel="alternate" href="/atom.xml" title="稀饭里的辣椒" type="application/atom+xml">
   
@@ -121,6 +123,7 @@
 <p>计算参数估计: $t = \frac{\phi_i}{\sigma}$<br>$\sigma$为标准差</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pt(t,df,lower.tail)</span><br></pre></td></tr></table></figure>
 <h3 id="模型优化"><a href="#模型优化" class="headerlink" title="模型优化"></a>模型优化</h3><p>有时候可以有多个模型可以拟合一个序列，这个时候引进AIC和BIC信息准则的概念进行模型优化。<br>$AIC = n \text{ln}(\sigma^2)+2(p+q+2)$</p>
+<p><a href="https://www.codecogs.com/eqnedit.php?latex=AIC&space;=&space;n&space;\text{ln}(\sigma^2)&plus;2(p&plus;q&plus;2)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?AIC&space;=&space;n&space;\text{ln}(\sigma^2)&plus;2(p&plus;q&plus;2)" title="AIC = n \text{ln}(\sigma^2)+2(p+q+2)"></a></p>
 
       
     </div>
