@@ -1,4 +1,3 @@
-<script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"> </script>
 ---
 title: 平稳序列建模的一般过程
 ---
@@ -53,15 +52,15 @@ Box.test(model.fit$residual,lag=6)
 #### 5.2.参数的显著性检验
 检验是否每个参数都是显著非0，检验的目的是为了使模型最精简。
 
-计算参数估计: $t = \frac{\phi_i}{\sigma}$
-$\sigma$为标准差
+计算参数估计: <a href="https://www.codecogs.com/eqnedit.php?latex=t&space;=&space;\frac{\phi_i}{\sigma}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?t&space;=&space;\frac{\phi_i}{\sigma}" title="t = \frac{\phi_i}{\sigma}" /></a>
+\sigma为标准差
 
 ```
 pt(t,df,lower.tail)
 ```
 ### 模型优化
 有时候可以有多个模型可以拟合一个序列，这个时候引进AIC和BIC信息准则的概念进行模型优化。
-$AIC = n \text{ln}(\sigma^2)+2(p+q+2)$
+
 
 <a href="https://www.codecogs.com/eqnedit.php?latex=AIC&space;=&space;n&space;\text{ln}(\sigma^2)&plus;2(p&plus;q&plus;2)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?AIC&space;=&space;n&space;\text{ln}(\sigma^2)&plus;2(p&plus;q&plus;2)" title="AIC = n \text{ln}(\sigma^2)+2(p+q+2)" /></a>
 
