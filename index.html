@@ -394,19 +394,9 @@
   <div class="article-inner">
     
     
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/12/test/">平稳序列建模的一般过程</a>
-    </h1>
-  
-
-      </header>
-    
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="1-验证是否为白噪声序列"><a href="#1-验证是否为白噪声序列" class="headerlink" title="1.验证是否为白噪声序列"></a>1.验证是否为白噪声序列</h3><p>所谓白噪声序列是指虽然该序列是平稳的，但是各个时刻的值之间没有联系，则无法对其进行建模分析。</p>
+        <h2 id=""><a href="#" class="headerlink" title=" "></a><script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"> </script></h2><h2 id="title-平稳序列建模的一般过程"><a href="#title-平稳序列建模的一般过程" class="headerlink" title="title: 平稳序列建模的一般过程"></a>title: 平稳序列建模的一般过程</h2><h3 id="1-验证是否为白噪声序列"><a href="#1-验证是否为白噪声序列" class="headerlink" title="1.验证是否为白噪声序列"></a>1.验证是否为白噪声序列</h3><p>所谓白噪声序列是指虽然该序列是平稳的，但是各个时刻的值之间没有联系，则无法对其进行建模分析。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Box.test(data, type = &quot;Ljung-Box&quot;, lag = 1)</span><br><span class="line">type:选择统计量，默认是Q统计类，Ljung-Box是LB统计量</span><br><span class="line">lag:延迟期数</span><br></pre></td></tr></table></figure>
 <p>原假设：假设延迟期&lt;=lag期之间相互独立<br>如果 p值小于0.05,则拒绝假设，说明不是白噪声序列，可以进行下一步建模。</p>
 <h3 id="2-绘制自相关图和偏相关图"><a href="#2-绘制自相关图和偏相关图" class="headerlink" title="2.绘制自相关图和偏相关图"></a>2.绘制自相关图和偏相关图</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">acf()</span><br><span class="line">pacf()</span><br></pre></td></tr></table></figure>
@@ -508,7 +498,7 @@
           </li>
         
           <li>
-            <a href="/2018/08/12/test/">平稳序列建模的一般过程</a>
+            <a href="/2018/08/12/test/">(no title)</a>
           </li>
         
       </ul>
